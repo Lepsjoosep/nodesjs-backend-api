@@ -1,5 +1,5 @@
 import app from "./app.js";
-import { get, Server } from "node:http";
+import { Server } from "node:http";
 
 let server: Server;
 let port: number = process.env.PORT
@@ -26,4 +26,3 @@ startServer().catch((error) => {
     closeConnection();
     process.exit(1);
 });
-
