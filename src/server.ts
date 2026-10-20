@@ -1,28 +1,27 @@
-import app from "./app.js";
 import { Server } from "node:http";
+import app from "./app.js";
+import { env } from "./config/env.js";
 
-let server: Server;
-let port: number = process.env.PORT
+const PORT = process.env.PORT || 3000;
 
-async function startServer() {
-    server = app.listen(port , () => {
-        console.log(`Server started at Port: ${port}  Oo=o=oO`);
-    });
-
-    server.on('error', (error) => {
-        console.error(`Server start failed: ${error}`);
-        process.exit(1);
-    })
-}
-
-async function closeConnection() {
-    if (server) {
-        await new Promise(resolve => server.close(resolve));
-    }
-}
-
-startServer().catch((error) => {
-    console.error(`Server start failed: ${error}`);
-    closeConnection();
-    process.exit(1);
+const server: Server = app.listen(env.PORT, (error) => {
+    if (error) throw error;
+    console.log(`Server is running on http://localhost:${env.PORT}`);
 });
+
+let isShuttingDown = false;
+
+
+async function shutdown() {
+    if (isShuttingDown) return;
+    isShuttingDown = true;
+
+    setTimeout(() => process.exit(1), 8000)
+     
+    await new Promise(resolve => server.close(resolve));
+    process.exit(0);
+
+}
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
