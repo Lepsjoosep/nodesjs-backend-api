@@ -23,7 +23,7 @@
     "forceConsistentCasingInFileNames": true,
     
 
-  }
+  },
   "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules", "dist"],
 
