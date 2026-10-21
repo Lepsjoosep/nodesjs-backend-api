@@ -4,17 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "auth:generate": "npx auth generate --config src/auth/auth.ts --output src/db/schema/auth.schema.ts",
     "typecheck": "tsc --noEmit",
     "server": "tsx --env-file=.env src/server.ts",
-    "db:migrate": "drizzle-kit migrate",
-    "db:generate": "drizzle-kit generate",
-    "db:studio": "drizzle-kit studio" 
+    "db:migrate": "drizzle-kit migrate --config=src/drizzle.config.ts",
+    "db:generate": "drizzle-kit generate --config=src/drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config=src/drizzle.config.ts"
   },
   "keywords": [],
   "author": "Joosep Leps",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@better-auth/drizzle-adapter": "^1.7.12",
+    "better-auth": "^1.7.12",
     "drizzle-orm": "^0.45.4",
     "express": "^5.3.0",
     "pg": "^8.23.1",
